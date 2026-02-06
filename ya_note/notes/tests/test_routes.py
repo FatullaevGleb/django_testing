@@ -30,11 +30,13 @@ class TestRoutes(BaseTestCase):
             with self.subTest(name=name, args=args):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
+
                 self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_logout_page_availability(self):
         url = reverse('users:logout')
         response = self.client.post(url)
+
         self.assertIn(response.status_code, (HTTPStatus.OK, HTTPStatus.FOUND))
 
     def test_pages_availability_for_auth_user(self):
@@ -49,6 +51,7 @@ class TestRoutes(BaseTestCase):
             with self.subTest(name=name, args=args):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
+
                 self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_availability_for_note_edit_and_delete(self):
@@ -67,6 +70,7 @@ class TestRoutes(BaseTestCase):
                 ):
                     url = reverse(name, args=(self.note.slug,))
                     response = self.client.get(url)
+
                     self.assertEqual(response.status_code, status)
 
     def test_redirect_for_anonymous_client(self):
@@ -85,4 +89,5 @@ class TestRoutes(BaseTestCase):
                 url = reverse(name, args=args)
                 redirect_url = f'{login_url}?next={url}'
                 response = self.client.get(url)
+
                 self.assertRedirects(response, redirect_url)

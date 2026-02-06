@@ -29,6 +29,7 @@ class TestListPage(BaseTestCase):
     def test_notes_list_for_author(self):
         self.client.force_login(self.author)
         response = self.client.get(self.LIST_URL)
+
         object_list = response.context['object_list']
         self.assertIn(self.note, object_list)
         self.assertEqual(object_list.count(), 1)
@@ -36,6 +37,7 @@ class TestListPage(BaseTestCase):
     def test_notes_list_for_reader(self):
         self.client.force_login(self.reader)
         response = self.client.get(self.LIST_URL)
+
         object_list = response.context['object_list']
         self.assertNotIn(self.note, object_list)
         self.assertEqual(object_list.count(), 1)
@@ -57,6 +59,7 @@ class TestDetailPage(BaseTestCase):
         self.client.force_login(self.author)
         url = reverse('notes:list')
         response = self.client.get(url)
+
         object_list = response.context['object_list']
         self.assertIn(self.note, object_list)
 
@@ -77,6 +80,7 @@ class TestFormPages(BaseTestCase):
         self.client.force_login(self.author)
         url = reverse('notes:add')
         response = self.client.get(url)
+
         self.assertIn('form', response.context)
         self.assertIsInstance(response.context['form'], NoteForm)
 
@@ -84,5 +88,6 @@ class TestFormPages(BaseTestCase):
         self.client.force_login(self.author)
         url = reverse('notes:edit', args=(self.note.slug,))
         response = self.client.get(url)
+
         self.assertIn('form', response.context)
         self.assertIsInstance(response.context['form'], NoteForm)

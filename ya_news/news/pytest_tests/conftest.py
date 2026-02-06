@@ -3,6 +3,7 @@ from datetime import timedelta
 import pytest
 from django.contrib.auth import get_user_model
 from django.test.client import Client
+from django.urls import reverse
 from django.utils import timezone
 
 from news.models import Comment, News
@@ -49,6 +50,21 @@ def comment(author, news):
         author=author,
         text='Текст комментария'
     )
+
+
+@pytest.fixture
+def detail_url(news):
+    return reverse('news:detail', args=(news.id,))
+
+
+@pytest.fixture
+def edit_url(comment):
+    return reverse('news:edit', args=(comment.id,))
+
+
+@pytest.fixture
+def delete_url(comment):
+    return reverse('news:delete', args=(comment.id,))
 
 
 @pytest.fixture
